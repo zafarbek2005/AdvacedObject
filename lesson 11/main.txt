@@ -1,0 +1,69 @@
+
+JavaScript ilg'or ob'ektlari
+Murakkab ob'ektlar haqidagi ushbu bobda biz ob'ektlar bilan bog'liq yanada rivojlangan mavzularni ko'rib chiqamiz. Bularga nomlar bo'shliqlari, modullar, usullar zanjiri, yopishlar, ob'ekt harflari va shaxsiy a'zolarni almashish kiradi.
+
+Nom maydonlari
+#
+Ko'pgina boshqa tillardan farqli o'laroq, JavaScript nom maydonlarini qo'llab-quvvatlamaydi. Nomlar bo'shliqlari muhim ahamiyatga ega, chunki ular ilovangizdagi global qamrovga qo'shilgan o'zgaruvchilar, ob'ektlar va funktsiyalar uchun identifikatorlar sonini kamaytirishga yordam beradi. JavaScript moslashuvchan til bo'lib, bu cheklovni yengib chiqish va o'z nom maydonlaringizni amalga oshirish usullari mavjud. Birinchidan, keling, nomlar maydoniga bo'lgan ehtiyojni biroz ko'proq o'rganamiz.
+
+JavaScript-da barcha kodlar yagona global nom maydonini baham ko'radi, bu shunchaki barcha global o'zgaruvchilar va xususiyatlar sifatida funktsiyalarni bajaradigan yagona global ob'ektdir. Brauzerda bu oyna obyekti. Agar sizda ko'plab ob'ektlar bo'lsa, bu global miqyosni ifloslantiradi. Quyidagi misolda , num, obj, str, total, numrva sumbarchasi global obyektga qo‘shilgan:
+
+var num = 5 ; var obj = {}; var str = "Xayrli tong" ; 
+ 
+ 
+
+funktsiya yig'indisi ( x , y ) { 
+   jami = x + y ; jami qaytish ; }
+   
+
+
+numr = yig'indi ( 4 , 3 );
+To'g'ri e'lon qilinmagan har qanday narsa, masalan, e'lon qilinmagan funksiya o'zgaruvchilari ham global ob'ektda tugaydi. Yuqoridagi misolda num, obj, str, va identifikatorlari kalit so'z sumyordamida to'g'ri e'lon qilingan var, ammo funksiya ko'lamli o'zgaruvchida totala yo'q varva numrnum imlosi noto'g'ri. JavaScript umumiy va numr ni global nom maydoniga qo'shadi, bu siz xohlagan narsa emas.
+
+Faraz qilaylik, sizning veb-ilovangiz chiroyli animatsion tugmalarni yaratadigan uchinchi tomon JavaScript kutubxonasini o'z ichiga oladi. Siz ilovangizni joylashtirasiz va bilasizki, mijozdan shikoyatlar bor: ular 125 000 ta ayiqchani xohlamaydilar. Siz tergovni boshlaysiz va ko'p soatlik kuchli bosimdan so'ng animatsiya kutubxonasi animatsiyalarni takrorlash uchun global o'zgaruvchidan foydalanishini aniqlaysiz. Lekin siz savatda buyurtma qilingan mahsulotlar sonini saqlash uchun raqamdan ham foydalanasiz. Bu nom to'qnashuviga misol . Nomlarning to'qnashuvi ko'pincha kuzatilishi juda qiyin bo'lgan xatolarni keltirib chiqarishi mumkin.
+
+Ismlar to'qnashuvi JavaScript-da jiddiy muammo bo'lishi mumkin. Xo'sh, qanday qilib bundan qochish kerak? Tez va oson yechim Namespace Design Pattern tomonidan taklif etiladi. Ilovangiz uchun yagona global ob'ekt yaratasiz va ushbu ob'ektga barcha o'zgaruvchilar va funktsiyalaringizni qo'shasiz. Bu sizga kodingizni nom maydonini yaratish, ishlarni tartibli qilish va uchinchi tomon JavaScript kutubxonalari, vidjetlari va boshqalar bilan ziddiyatlarni nomlash imkoniyatini sezilarli darajada kamaytirish imkonini beradi.
+
+Esda tutingki, nom maydoni nomining o'zi global miqyosga qo'shiladi, shuning uchun noyob nom yaratganingiz ma'qul. Quyidagi misolimiz nomlar maydonini ta'kidlash uchun MYAPP dan katta harflar bilan foydalaniladi.
+
+var MYAPP = {}; // bizning noyob nomlar maydoni   
+MYAPP . soni = 5 ; 
+MYAPP . obj = {}; 
+MYAPP . str = "Xayrli tong" ; 
+MYAPP . yig'indisi = funktsiya ( x , y ) { var jami = x + y ; jami qaytish ; } 
+MYAPP . num = MYAPP . yig'indisi ( 4 , 3 );             
+   
+   
+Yuqoridagi nomlar maydoni naqshlari nomlar to'qnashuvining oldini olish uchun ajoyib birinchi qadamdir. Biroq, JavaScript-da nom maydonlarini yaxshiroq boshqarishga yordam beradigan boshqa, yanada murakkab va mustahkam naqshlar mavjud. Bu va boshqa texnikalar bizning Dofactory JS mahsulotimizda keltirilgan . Buni tekshirish uchun bu yerni bosing .
+
+Modullar
+#
+Java (JavaScript emas)da semantik jihatdan bog'liq sinflarni guruhlash usulini ta'minlovchi paket deb nomlangan kalit so'z mavjud. Bu ko'p sonli sinflarni tashkil etishga yordam beradi. Masalan, grafik chizmachilik ilovasida, Ellipse, Rectangleva Polygonmantiqiy jihatdan bog'langan sinflardir. Shunday qilib, siz ularni bir xil paketga to'plashni xohlaysiz Draw. Java-dan farqli o'laroq, JavaScript paketlar uchun maxsus kalit so'zlarni taqdim etmaydi.
+
+JavaScript-dagi yechim kodingizni tartibga soluvchi modullarni yaratishdir . Modul nima? Modul - bu semantik jihatdan bog'liq bo'lgan o'zgaruvchilar va funktsiyalarni guruhlaydigan o'z-o'zidan tuzilgan kod qismidir. Modullar JavaScript-da o'rnatilgan konstruktsiyalar emas, lekin JavaScript moduli namunasi modul mijozlariga ta'sir qiladigan aniq belgilangan interfeyslarga ega modullarni yaratish yo'lini beradi.
+
+Modullarning muhim afzalligi shundaki, ichki funksiyalar kerak bo'lganda dasturning qolgan qismiga ta'sir qilmasdan o'zgartirilishi mumkin. Bu inkapsulyatsiya va ma'lumotlarni yashirishga yordam beradi.
+
+JavaScript-da modulni aniqlash uchun siz anonim darhol funksiyani yaratish orqali anonim yopilishlardan foydalanasiz . Bu juda og'iz, lekin aslida bu unchalik murakkab emas. Bir nechta modullarni ko'rganingizdan so'ng, ular qanday ishlashini tushunasiz.
+
+Mana modulning konturi:
+
+var MODULE = ( function () { var module = {}; var privateVariable = 4 ;   
+        
+     
+	
+    privateMethod funktsiyasi () { // .. } 
+        
+    
+	
+    modul . modulProperty = 1 ; modul . modulMethod = funktsiya () { // ... }; qaytish moduli ; }()); 
+       
+        
+    
+     
+Bu JavaScript modullarini yaratish tamoyillarini ko'rsatadigan oddiy, ammo yaxshi misol. Anonim bevosita funksiya bu kabi qavslar ichiga o'ralgan funksiyadir (function() { … })(). U anonimdir, chunki uning nomi yo'q va u darhol bo'ladi, chunki JavaScript u bilan uchrashganda, u darhol bajariladi va uning qaytish qiymati ga tayinlanadi MODULE.
+
+Funktsiya o'zgaruvchilari privateVariableva privateMethodfunksiya uchun shaxsiydir, ya'ni tashqi kod bu o'zgaruvchilarga kirish huquqiga ega emas. va qaytariladigan ob'ektning bir qismidir , shuning uchun bu qism ochiq bo'ladi moduleProperty, ya'ni tashqi kod ushbu xususiyatlarga kirish huquqiga ega bo'ladi. moduleMethodmodule
+
+Modullar zamonaviy JavaScript ilovalarini yaratish uchun asosiy hisoblanadi. Afsuski, Modul naqshini to'liq muhokama qilish ushbu qo'llanma doirasidan tashqarida. Qo'shimcha ma'lumot olish uchun siz bizning Dofactory JS- da ko'plab misollar bilan modul naqshining aniq sharhini topasiz . Qo'shimcha ma'lumot olish uchun bu yerni bosing .
+
